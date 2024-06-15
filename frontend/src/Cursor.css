@@ -1,0 +1,15 @@
+body {
+    cursor: none; 
+  }
+  
+  .custom-cursor {
+    width: 40px;
+    height: 40px;
+    background-image: url('./imagenes/mancuerna.png'); 
+    background-size: cover;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999; 
+    transition: transform 0.2s ease; 
+  }
+  

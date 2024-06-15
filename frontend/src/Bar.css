@@ -1,0 +1,18 @@
+.nav-link {
+  font-weight: bold;
+  margin-left: 40px;
+  color:black
+}
+
+.nav-link:hover {
+  color: white !important;
+}
+
+.btn-bold {
+  font-weight: bold;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-bold:hover {
+  transform: scale(1.2); 
+}

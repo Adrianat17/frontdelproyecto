@@ -1,0 +1,104 @@
+.calorias-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.chart-wrapper {
+  width: 50%; /* Ajusta el ancho según lo necesites */
+  height: 300px; /* Ajusta la altura según lo necesites */
+}
+
+.select-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.calorias-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.add-button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c82333;
+}
+
+.alimentos-seleccionados {
+  margin-top: 15px;
+}
+
+.h3-alimentos-seleccionados {
+  text-align: left;
+}
+
+.select-container select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 5px; /* Añade un margen derecho para separar los campos */
+}
+
+.select-container {
+  margin-top: 25px;
+}
+
+.alimentos-seleccionados {
+  margin-top: 10px;
+}
+
+.alimentos-seleccionados h3 {
+  font-size: 16px;
+}
