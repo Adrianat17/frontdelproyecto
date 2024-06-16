@@ -115,7 +115,7 @@ function ButtonBaseDemo() {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0', marginTop:'49px' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0', marginTop: '49px', padding: '40px' }}>
       {images.map((image) => (
         <ImageButton
           focusRipple

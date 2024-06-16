@@ -67,7 +67,7 @@ const ListaDePosts = () => {
   useEffect(() => {
     const obtenerPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/post/all');
+        const response = await axios.get('/post/all');
         setPosts(response.data);
       } catch (error) {
         console.error('Error al obtener los posts:', error);

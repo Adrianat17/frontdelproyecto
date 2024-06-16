@@ -10,7 +10,7 @@ function PerfilUsuario({ userId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/usuario/${userId}`);
+        const response = await axios.get(`/usuario/${userId}`);
         setUserData(response.data);
       } catch (error) {
         setError(error.message);

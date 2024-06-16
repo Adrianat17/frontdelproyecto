@@ -66,7 +66,7 @@ function Bar() {
   };
 
   const redireccionRegistro = () => {
-    window.location.href = "http://localhost:3000/registro";
+    window.location.href = "/registro";
   };
 
   const handleMouseEnter = () => {
@@ -123,7 +123,7 @@ function Bar() {
                   <NavItem className="d-flex align-items-center">
                     <NavLink
                       className="font-weight-bold"
-                      href="http://localhost:3000/registroconsumo"
+                      href="/registroconsumo"
                     >
                       Registro de consumo
                     </NavLink>

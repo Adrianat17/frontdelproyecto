@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -17,7 +16,7 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:8000/usuario/login', {
         email: email,
-        contrasena: password
+        contrasena: password  // Asegúrate de que el campo coincida con lo que espera tu backend
       });
 
       const data = response.data;
@@ -43,7 +42,21 @@ function Login() {
       navigate('/');
       window.location.reload();
     } catch (error) {
-      setError(error.response?.data?.message || error.message);
+      console.error('Error al iniciar sesión:', error);
+
+      if (error.response) {
+        console.error('Respuesta del servidor:', error.response);
+        console.error('Data:', error.response.data);
+        console.error('Status:', error.response.status);
+        console.error('Headers:', error.response.headers);
+        setError(`Hubo un problema al iniciar sesión: ${error.response.data.message || error.response.status}`);
+      } else if (error.request) {
+        console.error('Solicitud realizada pero sin respuesta:', error.request);
+        setError('No se recibió respuesta del servidor. Verifique su conexión.');
+      } else {
+        console.error('Error en la configuración de la solicitud:', error.message);
+        setError(`Error: ${error.message}`);
+      }
     }
   };
 
@@ -112,7 +125,6 @@ const styles = {
   input: {
     display: 'block',
     width: '100%',
-    padding: '10px',
     fontSize: '16px',
     borderRadius: '8px',
     border: '2px solid #ccc',

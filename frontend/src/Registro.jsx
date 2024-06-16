@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Registro.css';
@@ -61,8 +60,21 @@ function Registro() {
         navigate('/login');
       })
       .catch(error => {
-        console.error('Error al crear el usuario', error);
-        setError('Hubo un problema al crear el usuario. Inténtalo de nuevo.');
+        console.error('Error al crear el usuario:', error);
+
+        if (error.response) {
+          console.error('Respuesta del servidor:', error.response);
+          console.error('Data:', error.response.data);
+          console.error('Status:', error.response.status);
+          console.error('Headers:', error.response.headers);
+          setError(`Hubo un problema al crear el usuario: ${error.response.data.message || error.response.status}`);
+        } else if (error.request) {
+          console.error('Solicitud realizada pero sin respuesta:', error.request);
+          setError('No se recibió respuesta del servidor. Verifique su conexión.');
+        } else {
+          console.error('Error en la configuración de la solicitud:', error.message);
+          setError(`Error: ${error.message}`);
+        }
       });
   };
 

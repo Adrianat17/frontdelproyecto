@@ -1,19 +1,21 @@
-import  { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import axios from "axios";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from "react-chartjs-2";
 import SeleccionAlimentos from "./SeleccionAlimentos";
 import "./Calorias.css";
 import { toast, ToastContainer } from "react-toastify";
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 import CircularProgress from '@mui/material/CircularProgress';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Calorias() {
   const [grupos, setGrupos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [alimentos, setAlimentos] = useState([]);
   const [selectedGrupo, setSelectedGrupo] = useState("");
-  const [setSelectedCategoria] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [selectedCategoria, setSelectedCategoria] = useState("");
   const [selectedAlimentoIndex, setSelectedAlimentoIndex] = useState(-1);
   const [selectedAlimentos, setSelectedAlimentos] = useState({
     Desayuno: [],
@@ -85,16 +87,17 @@ function Calorias() {
   const handleAlimentoSelect = (comida) => {
     if (selectedAlimentoIndex !== -1) {
       const selectedAlimento = alimentos[selectedAlimentoIndex];
-      setSelectedAlimentos(prevState => ({
-        ...prevState,
-        [comida]: [...prevState[comida], selectedAlimento]
-      }));
-      // Reseteamos el índice del alimento seleccionado después de agregar
+      setSelectedAlimentos(prevState => {
+        const updatedComida = [...prevState[comida]];
+        if (!updatedComida.some(alimento => alimento.id === selectedAlimento.id)) {
+          updatedComida.push(selectedAlimento);
+        }
+        return {
+          ...prevState,
+          [comida]: updatedComida
+        };
+      });
       setSelectedAlimentoIndex(-1);
-      // Forzamos la actualización del componente
-      setTimeout(() => {
-        setSelectedAlimentoIndex(-1);
-      }, 0);
     }
   };
 
@@ -150,7 +153,7 @@ function Calorias() {
         toast.success(`Calorías consumidas: ${totalCalorias} kcal`);
         setTimeout(() => {
           setLoading(false);
-          window.location.href = 'http://localhost:3000/registroconsumo';
+          window.location.href = '/registroconsumo';
         }, 3000);
       } else {
         console.error('Error al crear el registro:', response.statusText);
@@ -163,20 +166,20 @@ function Calorias() {
 
   return (
     <div className="calorias-container">
-      <h1 style={{ marginTop: "55px" }}>Registro de Comidas</h1>
-      <p>
-        Aquí podrás registrar las comidas que ingieras durante el día y así calcular las calorías que has consumido y las que aún te quedan por consumir. Es importante recordar que las calorías de los alimentos están calculadas por cada 100g, por lo que, para un correcto funcionamiento, deberás registrar un mismo alimento varias veces en base a la cantidad ingerida. 
-      </p>
-
-      <div style={{ marginTop: "25px" }} className="calorias-info">
-        <h2>Objetivo de calorías: {caloriasObjetivo} kcal</h2>
-        <h3 style={{ color: diferenciaColor }}>
-          Diferencia del objetivo: {diferenciaCalorias} kcal
-        </h3>
+      <h1 style={{ marginTop: "55px", textAlign: 'center' }}>Registro de Comidas</h1>
+      <div style={{ marginBottom: "25px", marginTop: "20px", padding: "10px", maxWidth: "1400px", backgroundColor: "#f5f5f5", borderRadius: "8px" }}>
+        <p>
+          Aquí podrás registrar las comidas que ingieras durante el día y así calcular las calorías que has consumido y las que aún te quedan por consumir. Es importante recordar que las calorías de los alimentos están calculadas por cada 100g, por lo que, para un correcto funcionamiento, deberás registrar un mismo alimento varias veces en base a la cantidad ingerida.
+        </p>
+        <div style={{ marginTop: "25px", display: "flex", justifyContent: "space-between" }} className="calorias-info">
+          <h2 style={{ margin: 0 }}>Objetivo de calorías: {caloriasObjetivo} kcal</h2>
+          <h3 style={{ margin: 0, color: diferenciaColor }}>
+            Diferencia del objetivo: {diferenciaCalorias} kcal
+          </h3>
+        </div>
       </div>
-
-      <div className="chart-container">
-        <div className="chart-wrapper">
+      <div className="chart-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '25px' }}>
+        <div className="chart-wrapper" style={{ width: '80%', maxWidth: '800px' }}>
           <Bar
             data={{
               labels: ["Total de calorías", "Calorías objetivo"],
@@ -193,85 +196,34 @@ function Calorias() {
         </div>
       </div>
 
-      <SeleccionAlimentos
-        comida="Desayuno"
-        grupos={grupos}
-        categorias={categorias}
-        alimentos={alimentos}
-        handleGrupoChange={handleGrupoChange}
-        handleCategoriaChange={handleCategoriaChange}
-        setSelectedAlimentoIndex={setSelectedAlimentoIndex}
-        selectedAlimentoIndex={selectedAlimentoIndex}
-        handleAlimentoSelect={() => handleAlimentoSelect("Desayuno")}
-        selectedAlimentos={selectedAlimentos["Desayuno"]}
-        handleRemoveAlimento={(index) => handleRemoveAlimento("Desayuno", index)}
-      />
+      {['Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena'].map(comida => (
+        <div key={comida} className="comida-section">
+          <h2 className="comida-title">{comida}</h2>
+          <SeleccionAlimentos
+            comida={comida}
+            grupos={grupos}
+            categorias={categorias}
+            alimentos={alimentos}
+            handleGrupoChange={handleGrupoChange}
+            handleCategoriaChange={handleCategoriaChange}
+            setSelectedAlimentoIndex={setSelectedAlimentoIndex}
+            selectedAlimentoIndex={selectedAlimentoIndex}
+            handleAlimentoSelect={handleAlimentoSelect}
+            selectedAlimentos={selectedAlimentos[comida]}
+            handleRemoveAlimento={(index) => handleRemoveAlimento(comida, index)}
+          />
+        </div>
+      ))}
 
-      <SeleccionAlimentos
-        comida="Almuerzo"
-        grupos={grupos}
-        categorias={categorias}
-        alimentos={alimentos}
-        handleGrupoChange={handleGrupoChange}
-        handleCategoriaChange={handleCategoriaChange}
-        setSelectedAlimentoIndex={setSelectedAlimentoIndex}
-        selectedAlimentoIndex={selectedAlimentoIndex}
-        handleAlimentoSelect={() => handleAlimentoSelect("Almuerzo")}
-        selectedAlimentos={selectedAlimentos["Almuerzo"]}
-        handleRemoveAlimento={(index) => handleRemoveAlimento("Almuerzo", index)}
-      />
-
-      <SeleccionAlimentos
-        comida="Comida"
-        grupos={grupos}
-        categorias={categorias}
-        alimentos={alimentos}
-        handleGrupoChange={handleGrupoChange}
-        handleCategoriaChange={handleCategoriaChange}
-        setSelectedAlimentoIndex={setSelectedAlimentoIndex}
-        selectedAlimentoIndex={selectedAlimentoIndex}
-        handleAlimentoSelect={() => handleAlimentoSelect("Comida")}
-        selectedAlimentos={selectedAlimentos["Comida"]}
-        handleRemoveAlimento={(index) => handleRemoveAlimento("Comida", index)}
-      />
-
-      <SeleccionAlimentos
-        comida="Merienda"
-        grupos={grupos}
-        categorias={categorias}
-        alimentos={alimentos}
-        handleGrupoChange={handleGrupoChange}
-        handleCategoriaChange={handleCategoriaChange}
-        setSelectedAlimentoIndex={setSelectedAlimentoIndex}
-        selectedAlimentoIndex={selectedAlimentoIndex}
-        handleAlimentoSelect={() => handleAlimentoSelect("Merienda")}
-        selectedAlimentos={selectedAlimentos["Merienda"]}
-        handleRemoveAlimento={(index) => handleRemoveAlimento("Merienda", index)}
-      />
-      
-      <SeleccionAlimentos
-        comida="Cena"
-        grupos={grupos}
-        categorias={categorias}
-        alimentos={alimentos}
-        handleGrupoChange={handleGrupoChange}
-        handleCategoriaChange={handleCategoriaChange}
-        setSelectedAlimentoIndex={setSelectedAlimentoIndex}
-        selectedAlimentoIndex={selectedAlimentoIndex}
-        handleAlimentoSelect={() => handleAlimentoSelect("Cena")}
-        selectedAlimentos={selectedAlimentos["Cena"]}
-        handleRemoveAlimento={(index) => handleRemoveAlimento("Cena", index)}
-      />
       {loading ? (
-  <div>
-    <CircularProgress color="success" />
-  </div>
-) : (
-  <button onClick={handleAddComida}>Registrar comida(s)</button>
-)}
-<ToastContainer />
-</div>
-
+        <div>
+          <CircularProgress color="success" />
+        </div>
+      ) : (
+        <button onClick={handleAddComida}>Registrar comida(s)</button>
+      )}
+      <ToastContainer />
+    </div>
   );
 }
 
