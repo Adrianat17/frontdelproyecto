@@ -54,7 +54,7 @@ const styles = {
     borderRadius: '4px',
     border: '1px solid #ccc',
     fontSize: '16px',
-    textAlign: 'center',  // Centrar el texto del input
+    textAlign: 'center',  
     flex: 1,
   },
   selectCentered: {
@@ -63,8 +63,8 @@ const styles = {
     border: '1px solid #ccc',
     fontSize: '16px',
     backgroundColor: 'white',
-    textAlign: 'center',  // Centrar el texto del select
-    appearance: 'none',  // Quitar la flecha del select en algunos navegadores
+    textAlign: 'center',  
+    appearance: 'none',  
     flex: 1,
   },
   textarea: {
@@ -109,37 +109,39 @@ const CreateFormPost = ({ reloadPosts, handleCancel }) => {
     categoria: "",
   });
 
-  console.log("CreateFormPost renderizado"); // Log para verificar la renderización
+  //console.log("CreateFormPost renderizado"); // Log para comprobar la renderización
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form with data:", formData); // Log para verificar los datos enviados
-
-    // Convertir la fecha al formato adecuado para LocalDate
+    console.log("Submitting form with data:", formData);
+  
     const formattedFormData = {
       ...formData,
-      fecha: new Date(formData.fecha).toLocaleDateString('en-CA')  // 'en-CA' formatea la fecha a 'YYYY-MM-DD'
+      fecha: new Date(formData.fecha).toLocaleDateString('en-CA')
     };
-
+  
     try {
-      const response = await axios.post("http://localhost:8000/post/crear_post", formattedFormData);
+      const response = await axios.post("https://spring.serverjpg.date/post/crear_post", formattedFormData);
       console.log("Post creado:", response.data);
       setFormData({
         titulo: "",
         descripcion: "",
         fecha: new Date().toISOString().split('T')[0],
         categoria: "",
-      }); // Resetea el formulario y establece la fecha al momento actual
-
-      // Llama a la función para recargar los posts
+      });
+  
       reloadPosts();
-
-      // Cierra el formulario
       handleCancel();
     } catch (error) {
-      console.error("Error al crear el post:", error);
+      if (error.response && error.response.data) {
+        alert(`Error al crear el post: ${error.response.data}`);
+      } else {
+        console.error("Error al crear el post:", error);
+        alert("Error al crear el post. Por favor, intenta de nuevo.");
+      }
     }
   };
+  
 
   const handleInputChange = (e) => {
     setFormData({

@@ -103,7 +103,7 @@ const UpdateForm = ({ formData, handleChange, handleSubmit, handleCancel, postId
       return;
     }
     try {
-      const response = await axios.put(`http://localhost:8000/post/${postId}`, formData);
+      const response = await axios.put(`https://spring.serverjpg.date/post/${postId}`, formData);
       console.log("Post actualizado:", response.data);
       handleSubmit(); // Llama a handleSubmit sin pasar el evento ficticio
       toast.success("Post actualizado con éxito.");

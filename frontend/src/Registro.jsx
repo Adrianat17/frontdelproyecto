@@ -51,7 +51,7 @@ function Registro() {
       contrasena
     };
 
-    axios.post('http://localhost:8000/usuario/registro', usuario)
+    axios.post('https://spring.serverjpg.date/usuario/registro', usuario)
       .then(response => {
         console.log(response.data);
         const { nombre, fechaNacimiento, genero, email, rol } = response.data;

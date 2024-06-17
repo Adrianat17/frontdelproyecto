@@ -79,7 +79,7 @@ const ListaDePosts = () => {
 
   const handleEditar = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:8000/post/${id}`);
+      const response = await axios.get(`https://spring.serverjpg.date/post/${id}`);
       const post = response.data;
       console.log('Editar post:', post);
     } catch (error) {
@@ -89,7 +89,7 @@ const ListaDePosts = () => {
 
   const handleEliminar = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/post/delete/${id}`);
+      await axios.delete(`https://spring.serverjpg.date/post/delete/${id}`);
       setPosts(posts.filter(post => post.id !== id));
     } catch (error) {
       console.error('Error al eliminar el post:', error);

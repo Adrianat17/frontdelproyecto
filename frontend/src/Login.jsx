@@ -14,9 +14,9 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/usuario/login', {
+      const response = await axios.post('https://spring.serverjpg.date/usuario/login', {
         email: email,
-        contrasena: password  // Asegúrate de que el campo coincida con lo que espera tu backend
+        contrasena: password  
       });
 
       const data = response.data;
@@ -28,7 +28,7 @@ function Login() {
       localStorage.setItem('userId', userId);
       localStorage.setItem('userRol', userRol);
 
-      const userResponse = await axios.get(`http://localhost:8000/usuario/${userId}`, {
+      const userResponse = await axios.get(`https://spring.serverjpg.date/usuario/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

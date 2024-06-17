@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const SeleccionAlimentos = ({
   comida,
@@ -13,8 +11,21 @@ const SeleccionAlimentos = ({
   selectedAlimentoIndex,
   handleAlimentoSelect,
   selectedAlimentos,
-  handleRemoveAlimento
+  handleRemoveAlimento,
+  selectedGrupo,
+  selectedCategoria
 }) => {
+  const [filteredAlimentos, setFilteredAlimentos] = useState([]);
+
+  useEffect(() => {
+    const filtroAlimentos = alimentos.filter(alimento =>
+      (!selectedGrupo || alimento.grupoAlimento === selectedGrupo) &&
+      (!selectedCategoria || alimento.categoria === selectedCategoria)
+    );
+    setFilteredAlimentos(filtroAlimentos);
+    console.log('Filtered Alimentos:', filtroAlimentos); // Log de los alimentos filtrados
+  }, [selectedGrupo, selectedCategoria, alimentos]);
+
   return (
     <div className="calorias-container">
       <style>
@@ -120,7 +131,6 @@ const SeleccionAlimentos = ({
         `}
       </style>
 
-      
       <div className="select-wrapper" style={{ textAlign: "center", marginTop: "15px" }}>
         <div className="select-container">
           <select style={{ padding: "10px", fontSize: "16px" }} onChange={(e) => handleGrupoChange(e.target.value)}>
@@ -141,7 +151,7 @@ const SeleccionAlimentos = ({
           </select>
           <select style={{ padding: "10px", fontSize: "16px" }} value={selectedAlimentoIndex} onChange={(e) => setSelectedAlimentoIndex(e.target.value)}>
             <option value={-1}>Seleccione un alimento</option>
-            {alimentos.map((alimento, index) => (
+            {filteredAlimentos.map((alimento, index) => (
               <option key={index} value={index}>
                 {alimento.alimento}
               </option>

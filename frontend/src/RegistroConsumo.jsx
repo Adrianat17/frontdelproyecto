@@ -14,12 +14,12 @@ function RegistroConsumo() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId'); // Retrieve the logged-in user's ID
+    const userId = localStorage.getItem('userId'); 
 
-    axios.get('http://localhost:8000/registro/all')
+    axios.get('https://spring.serverjpg.date/registro/all')
       .then(response => {
         const registros = response.data;
-        // Filter registros based on the logged-in user's ID
+        
         const userRegistros = registros.filter(registro => registro.usuario.id === parseInt(userId, 10));
 
         const fechas = userRegistros.map(registro => registro.fechaRegistro);
@@ -36,7 +36,7 @@ function RegistroConsumo() {
               borderColor: 'rgb(75, 192, 192)',
               tension: 0.1,
               pointRadius: 5, // tamaño de los puntos
-              pointHoverRadius: 7 // tamaño de los puntos al pasar el mouse
+              pointHoverRadius: 7 // tamaño de los puntos al pasar el raton
             },
             {
               label: 'Calorías Consumidas',
@@ -44,8 +44,8 @@ function RegistroConsumo() {
               fill: false,
               borderColor: 'rgb(255, 99, 132)',
               tension: 0.1,
-              pointRadius: 5, // tamaño de los puntos
-              pointHoverRadius: 7 // tamaño de los puntos al pasar el mouse
+              pointRadius: 5, 
+              pointHoverRadius: 7 
             }
           ]
         });

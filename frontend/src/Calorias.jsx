@@ -1,4 +1,4 @@
-import{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from "react-chartjs-2";
@@ -14,7 +14,6 @@ function Calorias() {
   const [categorias, setCategorias] = useState([]);
   const [alimentos, setAlimentos] = useState([]);
   const [selectedGrupo, setSelectedGrupo] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [selectedCategoria, setSelectedCategoria] = useState("");
   const [selectedAlimentoIndex, setSelectedAlimentoIndex] = useState(-1);
   const [selectedAlimentos, setSelectedAlimentos] = useState({
@@ -29,7 +28,7 @@ function Calorias() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/alimento/grupos")
+    axios.get("https://spring.serverjpg.date/alimento/grupos")
       .then((response) => {
         setGrupos(response.data);
       })
@@ -64,7 +63,7 @@ function Calorias() {
     setSelectedGrupo(grupo);
     setSelectedCategoria("");
     setAlimentos([]);
-    axios.get(`http://localhost:8000/alimento/categorias/${grupo}`)
+    axios.get(`https://spring.serverjpg.date/alimento/categorias/${grupo}`)
       .then((response) => {
         setCategorias(response.data);
       })
@@ -75,12 +74,15 @@ function Calorias() {
 
   const handleCategoriaChange = (categoria) => {
     setSelectedCategoria(categoria);
-    axios.get(`http://localhost:8000/alimento/alimentos?categoria=${categoria}&grupoAlimento=${selectedGrupo}`)
+    const url = `https://spring.serverjpg.date/alimento/alimentos?categoria=${encodeURIComponent(categoria)}&grupoAlimento=${encodeURIComponent(selectedGrupo)}`;
+    console.log(`Fetching alimentos with URL: ${url}`);
+    axios.get(url)
       .then((response) => {
         setAlimentos(response.data);
+        //console.log('Alimentos fetched:', response.data); // Log de los datos obtenidos
       })
       .catch((error) => {
-        console.error("Error fetching alimentos:", error);
+        //console.error("Error fetching alimentos:", error);
       });
   };
 
@@ -89,9 +91,7 @@ function Calorias() {
       const selectedAlimento = alimentos[selectedAlimentoIndex];
       setSelectedAlimentos(prevState => {
         const updatedComida = [...prevState[comida]];
-        if (!updatedComida.some(alimento => alimento.id === selectedAlimento.id)) {
-          updatedComida.push(selectedAlimento);
-        }
+        updatedComida.push(selectedAlimento);
         return {
           ...prevState,
           [comida]: updatedComida
@@ -111,7 +111,7 @@ function Calorias() {
 
   const verificarRegistroExistente = async (fechaFormateada, userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/registro/existe_registro?fecha=${fechaFormateada}&userId=${userId}`);
+      const response = await axios.get(`https://spring.serverjpg.date/registro/existe_registro?fecha=${fechaFormateada}&userId=${userId}`);
       return response.data.existeRegistro;
     } catch (error) {
       console.error('Error verificando el registro:', error);
@@ -147,7 +147,7 @@ function Calorias() {
         },
       };
 
-      const response = await axios.post('http://localhost:8000/registro/crear_registro', data);
+      const response = await axios.post('https://spring.serverjpg.date/registro/crear_registro', data);
 
       if (response.status === 200) {
         toast.success(`Calorías consumidas: ${totalCalorias} kcal`);
@@ -211,6 +211,8 @@ function Calorias() {
             handleAlimentoSelect={handleAlimentoSelect}
             selectedAlimentos={selectedAlimentos[comida]}
             handleRemoveAlimento={(index) => handleRemoveAlimento(comida, index)}
+            selectedGrupo={selectedGrupo}
+            selectedCategoria={selectedCategoria}
           />
         </div>
       ))}

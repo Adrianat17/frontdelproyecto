@@ -13,7 +13,7 @@ const PrivateRoute = ({ children, roles }) => {
   useEffect(() => {
     if (user && roles && !roles.includes(userRole)) {
       if (userRole === 'ADMINISTRADOR') {
-        toast.error("Acceso denegado.Eres administrador.n");
+        toast.error("Acceso denegado.Eres administrador.");
       } else {
         toast.error("No tienes los permisos necesarios para acceder a esta página.");
       }

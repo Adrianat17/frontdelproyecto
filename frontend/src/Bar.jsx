@@ -27,24 +27,24 @@ function Bar() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const userData = JSON.parse(localStorage.getItem("userData")); // Obtener los datos del usuario almacenados en localStorage
+    const userData = JSON.parse(localStorage.getItem("userData")); // Obtiene los datos del usuario almacenados en localStorage
     if (token) {
       setUsuarioAutenticado(true);
       if (userData && userData.rol) {
-        setUserRole(userData.rol); // Establecer el rol del usuario
+        setUserRole(userData.rol); // Establece el rol del usuario
       }
     }
   }, []);
 
   const handleLogout = () => {
-    setShowConfirmationModal(true); // Mostrar el modal de confirmación
+    setShowConfirmationModal(true); 
   };
 
   const handleConfirmLogout = () => {
-    // Eliminar todos los datos del almacenamiento local
+    // Elimina todos los datos del almacenamiento local
     localStorage.clear();
 
-    // Eliminar la caché del navegador
+    // Elimina la caché del navegador
     caches.keys().then((names) => {
       for (let name of names) {
         caches.delete(name);
@@ -54,7 +54,7 @@ function Bar() {
     toast.success("¡Sesión cerrada con éxito!");
     setUsuarioAutenticado(false);
 
-    // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
+    // Redirige al usuario a la página de inicio de sesión después de cerrar sesión
     setTimeout(() => {
       navigate('/login');
       window.location.reload();
@@ -191,7 +191,7 @@ function Bar() {
           </Row>
         </Container>
       </Navbar>
-      {/* Modal de confirmación para cerrar sesión */}
+      
       <ConfirmationModal
         show={showConfirmationModal}
         onHide={() => setShowConfirmationModal(false)}

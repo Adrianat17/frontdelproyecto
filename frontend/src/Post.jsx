@@ -91,7 +91,7 @@ const Post = () => {
 
   const fetchPosts = () => {
     axios
-      .get("http://localhost:8000/post/all")
+      .get("https://spring.serverjpg.date/post/all")
       .then((response) => {
         setPosts(response.data);
       })
@@ -106,7 +106,7 @@ const Post = () => {
 
   const handleDelete = (postId) => {
     axios
-      .delete(`http://localhost:8000/post/${postId}`)
+      .delete(`https://spring.serverjpg.date/post/${postId}`)
       .then(() => {
         setPosts(posts.filter((post) => post.id !== postId));
       })

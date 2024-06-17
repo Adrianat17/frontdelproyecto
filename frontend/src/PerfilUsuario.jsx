@@ -29,7 +29,7 @@ function PerfilUsuario({ userId }) {
           <p>ID: {userData.id}</p>
           <p>Name: {userData.name}</p>
           <p>Email: {userData.email}</p>
-          {/* Otros datos del usuario */}
+          
         </div>
       )}
     </div>

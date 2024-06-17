@@ -15,7 +15,7 @@ const Roles = () => {
 
   const fetchUsuarios = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/usuario/all');
+      const response = await axios.get('https://spring.serverjpg.date/usuario/all');
       setUsuarios(response.data);
     } catch (error) {
       console.error('Error al cargar los usuarios:', error);
@@ -25,7 +25,7 @@ const Roles = () => {
 
   const eliminarUsuario = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/usuario/delete/${id}`);
+      await axios.delete(`https://spring.serverjpg.date/usuario/delete/${id}`);
       toast.success('Usuario eliminado correctamente');
       fetchUsuarios();
     } catch (error) {
@@ -37,7 +37,7 @@ const Roles = () => {
   const cambiarRol = async (id) => {
     const adminId = JSON.parse(localStorage.getItem('userData')).id;
     try {
-      await axios.put(`http://localhost:8000/usuario/asignar/${id}`, null, {
+      await axios.put(`https://spring.serverjpg.date/usuario/asignar/${id}`, null, {
         params: {
           rol: newRole,
           adminId: adminId,

@@ -48,7 +48,7 @@ function Calculadora() {
 
     try {
       const userId = localStorage.getItem('userId');
-      await axios.put(`http://localhost:8000/usuario/update/${userId}`, {
+      await axios.put(`https://spring.serverjpg.date/usuario/update/${userId}`, {
         peso: pesoParsed,
       });
 
@@ -68,7 +68,7 @@ function Calculadora() {
 
     try {
       const userId = localStorage.getItem('userId');
-      await axios.put(`http://localhost:8000/usuario/update/${userId}`, {
+      await axios.put(`https://spring.serverjpg.date/usuario/update/${userId}`, {
         altura: alturaParsed,
       });
 
@@ -106,7 +106,7 @@ function Calculadora() {
     setLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:8000/calculadora/calcular/${userId}`, null, {
+      const response = await axios.put(`https://spring.serverjpg.date/calculadora/calcular/${userId}`, null, {
         params: {
           genero: genero,
           edad: edadParsed,
